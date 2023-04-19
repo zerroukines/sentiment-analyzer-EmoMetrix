@@ -1,5 +1,0 @@
-version = "5.9.*"
-
-[tool.stubtest]
-ignore_missing_stub = false
-platforms = ["win32", "linux", "darwin"]
