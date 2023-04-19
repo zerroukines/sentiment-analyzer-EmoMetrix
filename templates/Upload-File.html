@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/Upload-File.css'%}">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <title>Visualize your file</title>
+</head>
+<body>
+    <!-- ?version=1 -->
+    {% include 'sidebar.html' %}
+    <div class="main">
+		<div class="head">
+			<h1>File Upload and Sentiment Analysis Dashboard</h1>
+		</div>
+        <div class="content">
+         <form action="{% url 'dashboard' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+            <h2>Upload File:</h2>
+            <label for="file-upload" class="custom-file-upload" >
+                <i class="fas fa-cloud-upload-alt"></i> Select a file
+            </label>
+            <input id="file-upload" type="file" name="file" lang="en">
+            <span id="file-name"></span>
+            <br><br>
+            <button type="submit">Analyze</button>
+          </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/Upload-File.js' %}"></script>
+</body>
+</html>

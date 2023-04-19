@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static '../static/css/index.css' %}?version=1">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <title>Home</title>
+
+</head>
+<body>
+    {% include 'sidebar.html' %}
+<div>
+    <p class="name"> Sentiment analyzer 
+        <span class="slogan">Unlock the sentiment in every text</span>
+    </p>
+    <p class="welcome">
+         Welcome to our Sentiment Analysis Web App! Our app helps you understand the sentiment of 
+        any text. It uses advanced NLP and machine learning to analyze text and assign a sentiment
+        score. With our user-friendly interface, you can easily upload or paste text and view 
+        sentiment scores. It's free and available on the web.<a class = "try" href="{% url 'test' %}">Try it now</a> and see how it can improve 
+        your business. 
+    </p>
+    <div class="cards">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-comments"></i>
+          </div>
+          <hr>
+          <div class="card-body">
+            <p class="card-name">Improved customer experience and communication through sentiment-based feedback.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-bell"></i>
+          </div>
+          <hr>
+          <div class="card-body">
+            <p class="card-name">The ability to detect and respond to crisis situations in real-time.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-chart-line"></i>
+          </div>
+          <hr>
+          <div class="card-body">
+            <p class="card-name">Better understanding of the effectiveness of marketing and communication efforts.</p>
+          </div>
+        </div>
+      </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      
+

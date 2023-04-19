@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sentiment Analysis Result</title>
+    <link rel="stylesheet" href="{% static 'css/result.css' %}">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    {% include 'sidebar.html' %}
+
+    <div class="all">
+    <h1>Sentiment Analysis Result</h1>
+      {% if sentiment == 'positive' %}
+      <div class="sentiment">
+        <i class="fas fa-smile positive"></i>
+        <h2>Positive</h2>
+      </div>
+      <p>Your text is full of positivity! Keep up the good work.</p>
+      {% elif sentiment == 'negative' %}
+      <div class="sentiment">
+        <i class="fas fa-frown negative"></i>
+        <h2>Negative</h2>
+      </div>
+      <p>Your text is full of negativity! Try to focus on the positive.</p>
+      {% else %}
+      <div class="sentiment">
+        <i class="fas fa-meh-blank neutral"></i>
+        <h2>Neutral</h2>
+      </div>
+      <p>Your text is neutral. Keep up the good work!</p>
+      {% endif %}
+      <a href="{% url 'test' %}" class="re-analysis-button">Re-Analyze</a>
+    </div>
+  </body>
+</html>

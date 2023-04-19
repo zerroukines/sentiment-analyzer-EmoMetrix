@@ -1,0 +1,93 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('/static/fonts/poppins/Poppins-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
+    font-family: 'poppins' sans-serif;
+}
+
+.name {
+    margin: 0 auto;
+    padding-top: 20px;
+    text-align: center; 
+    padding-left: 200px;
+    font-size: 45px;
+    font-weight: bolder;
+}
+
+
+.slogan{
+    /* padding-left: 400px;
+    font-size: 18px; */
+    display: block;
+    font-size: 18px;
+    font-weight: lighter;
+    color: rgb(150, 148, 148);
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 80px;
+    text-align: center;
+}
+  
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgb(128, 128, 128);
+    margin-bottom: 10px;
+    height: 120px;
+    margin-left: 200px;
+}
+  
+input[type="text"]::placeholder {
+    font-size: 18px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    margin-left: 200px;
+}
+  
+.analyze{
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 9px;
+    font-weight: 700;
+    border: none;
+}
+
+#clear-btn {
+    background-color: #eed202;
+    color: #ffffff;
+}
+
+#submit-btn {
+    background-color: #130754;
+    color: #ffffff;
+}
+
+#submit-btn:hover {
+    background-color: #130754;
+    color: #ffffff;
+}
+
+.analyze:active {
+    background-color: #130754;
+    transform: translateY(2px);
+}
+  
+#clear-btn:active {
+    background-color: #eed202;
+}
+  

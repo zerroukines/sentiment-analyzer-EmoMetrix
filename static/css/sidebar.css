@@ -1,0 +1,140 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('/static/fonts/poppins/Poppins-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Light Mode */
+
+*{
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    color: #000000;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.sidebar{
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    left: 0;
+    background: #130754;
+}
+
+.sidebar .text {
+    color: #ffffff;
+    font-size: 25px;
+    line-height: 95px;
+    text-align: center;
+    background: #130754;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 1px;
+}
+
+.sidebar .text span {
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 65px;
+    text-align: center;
+    background: #130754;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 1px;
+}
+
+
+nav ul {
+    background-color: #130754;
+    height: 100%;
+    width: 100%;
+    list-style: none;
+}
+
+nav ul li {
+    line-height: 50px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    padding-left: 40px;
+    font-weight: 600;
+    display: block;
+    width: 100%;
+    border-left: 3px solid transparent;
+}
+
+nav ul li a:hover{
+  /*  color: #ffffff;
+    background: #1e1e1e; */
+    /* border-left-color: #ff007f; */
+    color: #130754;
+    background: #ffffff;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    font-weight: bolder;
+}
+
+.header{
+    height: 45px;
+    border-bottom: 1px solid rgba(100, 98, 98, 0.1);
+    margin-left:200px ;
+    background-color: #ffffff;
+}
+
+.login{
+    padding: 5px 10px;
+    margin-top: 6px;
+    margin-right: 15px;
+    border-radius: 9px;
+    background-color: #130754;
+    color: #ffffff;
+    font-weight: 700;
+    float: right;
+    text-decoration: none;
+}
+
+.login:active {
+    background-color: #130754;
+    transform: translateY(2px);
+}
+
+.sidebar-link.active {
+    color: #130754;
+    /* border-left-color: #ff007f; */
+    background: #ffffff;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    font-weight: bolder;
+}
+
+
+
+
+.sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #130754;
+}
+  
+.sidebar-footer a {
+    
+    margin-bottom: 20px;
+}
+  
+.sidebar-footer a i {
+    margin-right: 20px;
+    color: #ffffff;
+}
+
+
+
+ 

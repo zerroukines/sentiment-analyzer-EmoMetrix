@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/sidebar.css'%}">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/all.min.css'' %}" rel="stylesheet" type="text/css">
+    <title>Sentiment analyzer</title>
+</head>
+<body>
+  <!-- ?version=1 -->
+    <nav class="sidebar">
+        <div class="text"> Emo<span>Metrix</span></div>
+        <ul>
+            <li>
+                <a class="sidebar-link {% if request.path == '/' %}active{% endif %}" 
+                  href="{% url 'home' %}">Home
+                </a>
+            </li>
+            <li>
+                <a class="sidebar-link {% if request.path == '/test/' %}active{% endif %}" 
+                  href="{% url 'test' %}">Test
+                </a>
+            </li>
+            <li>
+                <a  class="sidebar-link {% if request.path == '/Upload File/' %}active{% endif %}"
+                   href="{% url 'Upload File' %}">Upload File
+                </a>
+            </li>
+            
+            <li>
+                <a  class="sidebar-link {% if request.path == '/contactus/' %}active{% endif %}" 
+                  href="{% url 'contactus' %}">Contact Us
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+          <a href="#"><i class="fab fa-linkedin fa-lg"></i></a>
+          <a href="#"><i class="fab fa-github fa-lg"></i></a>
+          <a href="#"><i class="fas fa-globe fa-lg"></i></a>
+        </div>
+        
+  </nav>
+      
+      <div class="header"> 
+        {% if user.is_authenticated %}
+            <a class="login" href="{% url 'logout' %}">Log Out</a>
+        {% else %}
+            <a class="login" href="{% url 'login' %}">Log In</a>
+        {% endif %}
+    </div>
+    </div>
+    <script src="{% static 'js/sidebar.js' %}"></script>
+    <!-- <script src="{% static 'js/sidebar.js' %}" type="text/javascript"></script> -->
+
+</body>
+</html>
+
+
+
+
+

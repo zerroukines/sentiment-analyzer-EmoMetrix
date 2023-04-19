@@ -1,0 +1,66 @@
+h1 {
+    font-size: 45px;
+    font-weight: bolder;
+    margin-left: 200px;
+    padding-top: 20px;
+    margin-bottom: 100px;
+    text-align: center;
+}
+
+.sentiment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    margin-left: 200px;
+}
+
+.sentiment i {
+    font-size: 40px;
+    margin-right: 10px;
+
+}
+
+.positive {
+    color: rgb(60, 118, 61);
+}
+
+.negative {
+    color: rgb(169, 68, 66);
+}
+
+.neutral {
+    color: rgb(238, 210, 2);
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-left: 200px;
+    text-align: center;
+}
+
+.re-analysis-button {
+    background-color: #ff007f;
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 15px 32px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 200px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    border-radius: 8px;
+    position: absolute;
+    top: 70%;
+    right: 70px;
+    transform: translateY(-50%);
+}
+
+.re-analysis-button:hover {
+    background-color: #ff69b4;
+}

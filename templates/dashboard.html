@@ -1,0 +1,219 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{% static 'css/dashboard.css'%}?version=1">
+        <!-- <script src="{% static 'js/Chart.js' %}"></script> ?version=1 -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+        <title>Sentiment analyzer Results</title>
+    </head>
+<body>
+    {% include 'sidebar.html' %}
+    
+    <div class="card-container">
+      <div class="card">
+        <i class="fa fa-users"></i>
+        <div class="card-content">
+          <span class="card-label">Number of Responders</span>
+          <span class="card-value">{{ num_responders }}</span>
+        </div>
+      </div>
+      
+      <div class="card">
+        <i class="fa fa-question" id="qst"></i>
+        <div class="card-content">
+          <span class="card-label">Number of Questions</span>
+          <span class="card-value">{{ num_questions }}</span>
+        </div>
+      </div>
+      
+      <div class="card">
+        <i class="fa fa-male" id="male"></i>
+        <div class="card-content">
+          <span class="card-label">Number of Males</span>
+          <span class="card-value">{{ male_count }}</span>
+        </div>
+      </div>
+      
+      <div class="card">
+        <i class="fa fa-female" id="female"></i>
+        <div class="card-content">
+          <span class="card-label">Number of Females</span>
+          <span class="card-value">{{ female_count }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <!--  -----------------------------------------------------------------------------  -->
+    
+    
+    <!--  -----------------------------------------------------------------------------  -->
+    <div class="container">
+      <canvas id="myChart"></canvas>
+      <canvas id="academic-year-chart"> </canvas>
+    </div>
+    
+    <!--  -----------------------------------------------------------------------------  -->
+
+    <div class="detail-content">
+      <ul class="tool-list">
+        <li>
+          <svg viewbox="0 0 100 100">
+            <circle cx="50" cy="50" r="45"></circle>
+            <circle class="cbar" id="cbar1" cx="50" cy="50" r="45" style="--percent: {{ cours_count }}/100"></circle>
+          </svg>
+          <span class="tl-name">Cours</span>
+          <span class="tl-exp">{{ cours_count }}</span>
+        </li>
+        <li>
+          <svg viewbox="0 0 100 100">
+            <circle cx="50" cy="50" r="45"></circle>
+            <circle class="cbar" id="cbar2" cx="50" cy="50" r="45" style="--percent: {{ td_count }}/100 " ></circle>
+          </svg>
+          <span class="tl-name">TD</span>
+          <span class="tl-exp">{{ td_count }}</span>
+        </li>
+        <li>
+          <svg viewbox="0 0 100 100">
+            <circle cx="50" cy="50" r="45"></circle>
+            <circle class="cbar" id="cbar3" cx="50" cy="50" r="45" style="--percent: {{ tp_count }}/100"></circle>
+          </svg>
+          <span class="tl-name">TP</span>
+          <span class="tl-exp">{{ tp_count }} </span>
+        </li>
+      </ul>
+    </div>
+    <!--  -----------------------------------------------------------------------------  -->
+
+    <script>
+      var results = JSON.parse('{{ results_json|escapejs }}'); // parse the JSON object
+      var ctx = document.getElementById('myChart').getContext('2d');
+
+      // initialize count arrays
+      var posCounts = [];
+      var neuCounts = [];
+      var negCounts = [];
+
+      // loop through each column and count positive, neutral, and negative results
+      var columns = ['رايك في تخصص الاعلام الالي', 'رايك في طريقة شرح  الدروس', 'رايك في التدريس باللغة الفرنسية ', 'رايك في التدريس باللغة الانجليزية ', 'رايك في التدريس و التعلم عن بعد'];
+      for (var i = 0; i < columns.length; i++) {
+  var posCount = 0;
+  var neuCount = 0;
+  var negCount = 0;
+  var column = columns[i];
+  var columnResults = results[column];
+
+  // loop through each result in the column and count positive, neutral, and negative results
+  for (var j = 0; j < columnResults.length; j++) {
+    var sentiment = columnResults[j];
+    if (sentiment === 'positive') {
+      posCount++;
+    } else if (sentiment === 'neutral') {
+      neuCount++;
+    } else if (sentiment === 'negative') {
+      negCount++;
+    }
+  }
+
+  // add counts to respective arrays
+  posCounts.push(posCount);
+  neuCounts.push(neuCount);
+  negCounts.push(negCount);
+}
+
+var myChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: [' التخصص الدراسي', 'طريقة شرح الدرس', 'اللغة الفرنسية', 'اللغة الانجليزية', 'التدريس عن بعد'],
+    datasets: [
+      {
+        label: 'Positive',
+        data: posCounts,
+        backgroundColor: 'rgb(76, 175, 80, 0.2)',
+        borderColor: 'rgb(76, 175, 80, 0.6)',
+        borderWidth: 1
+      },
+      {
+        label: 'Neutral',
+        data: neuCounts,
+        backgroundColor: 'rgb(238, 210, 2, 0.2)',
+        borderColor: 'rgb(238, 210, 2, 0.6)',
+        borderWidth: 1
+      },
+      {
+        label: 'Negative',
+        data: negCounts,
+        backgroundColor: 'rgb(233, 30, 99, 0.2)',
+        borderColor: 'rgb(233, 30, 99, 0.6)',
+        borderWidth: 1
+      }
+    ]
+  },
+  options:{
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+//   ----------------------------------------------------------------------------- 
+var academicYearData = JSON.parse('{{ academic_year_counter|escapejs }}');
+
+    // Get the canvas element
+    var academicYearCanvas = document.getElementById("academic-year-chart");
+
+    // Create the Chart object
+    var academicYearChart = new Chart(academicYearCanvas, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(academicYearData),
+        datasets: [{
+          data: Object.values(academicYearData),
+          backgroundColor: [
+            'rgb(135, 191, 255, 0.8)',
+            'rgb(33, 150, 243, 0.8)',
+            'rgb(19, 7, 84, 0.8)',
+            'rgb(0, 119, 182, 0.8)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgb(135, 191, 255)',
+            'rgb(33, 150, 243)',
+            'rgb(19, 7, 84)',
+            'rgb(0, 119, 182)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        legend: {
+          position: 'right',
+        },
+        title: {
+          display: true,
+          text: 'السنة الدراسية'
+        }
+      }
+    });
+  var platformYesCount = academicYearData = JSON.parse('{{ academic_year_counter|escapejs }}');
+  const firstElement = platformYesCount[Object.keys(platformYesCount)[0]];
+  var skillbarYes = document.querySelector(".skillbar-yes");
+  var skillbarNo = document.querySelector(".skillbar-no");
+  skillbarYes.style.width = firstElement + "%";
+  skillbarNo.style.width = (36 - firstElement) + "%";
+
+console.log(skillbarNo)
+</script>
+
+</body>
+</html>
