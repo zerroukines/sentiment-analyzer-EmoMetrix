@@ -20,12 +20,10 @@
 
 
 .slogan{
-    /* padding-left: 400px;
-    font-size: 18px; */
     display: block;
     font-size: 18px;
     font-weight: lighter;
-    color: rgb(150, 148, 148);
+    color: #17a2b8ce;
 }
 
 .input-container {
@@ -42,12 +40,16 @@ input[type="text"] {
     width: 80%;
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid rgb(128, 128, 128);
+    border: 2px solid rgb(128, 128, 128);
     margin-bottom: 10px;
     height: 120px;
     margin-left: 200px;
 }
-  
+
+input[type="text"]:focus{
+    outline: none;
+}
+
 input[type="text"]::placeholder {
     font-size: 18px;
 }
@@ -73,17 +75,17 @@ input[type="text"]::placeholder {
 }
 
 #submit-btn {
-    background-color: #130754;
+    background-color: #17a2b8;
     color: #ffffff;
 }
 
 #submit-btn:hover {
-    background-color: #130754;
+    background-color: #17a2b8;
     color: #ffffff;
 }
 
 .analyze:active {
-    background-color: #130754;
+    background-color: #17a2b8;
     transform: translateY(2px);
 }
   
@@ -91,3 +93,4 @@ input[type="text"]::placeholder {
     background-color: #eed202;
 }
   
+

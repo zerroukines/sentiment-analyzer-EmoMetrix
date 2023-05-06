@@ -1,0 +1,59 @@
+.container {
+    margin: 100px auto;
+    width: 50%;
+    text-align: center;
+    margin-left: 400px;
+}
+  
+.input-field {
+    position: relative;
+    margin-bottom: 30px;
+}
+  
+.input-field input {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+    color: #555;
+    background: transparent;
+}
+  
+.input-field input:focus {
+    outline: none;
+    border-bottom: 2px solid #17a2b8;
+}
+  
+.input-field label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 16px;
+    color: #999;
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+  
+.input-field input:focus ~ label,
+.input-field input:valid ~ label {
+    top: -20px;
+    font-size: 14px;
+    color: #17a2b8;
+}
+  
+.analyze-btn {
+    background-color: #17a2b8;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+  
+.analyze-btn:hover {
+    background-color: #128293;
+}
+  

@@ -2,15 +2,15 @@ from django.shortcuts import render,HttpResponse,redirect
 from .models import Analyze
 from .se import sentiment_analyzer
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect , JsonResponse
 from django.contrib.auth import authenticate,login as auth_login
 from django.contrib.auth.decorators import login_required
-import csv, codecs
-import json
+import csv, codecs , json , re , requests , facebook
+from django.conf import settings
 from django.contrib import messages
-# from django.http import JsonResponse
 from collections import Counter
 from .models import MyUser
+from bs4 import BeautifulSoup
 @login_required(login_url='login')
 
 
@@ -67,9 +67,7 @@ def analyze_file(request):
             'cours_count': cours_count,
             'platform_yes_count': platform_yes_count,
             'platform_no_count': platform_no_count,
-            'platform_counter_json' : platform_counter_json
-            # 'favorite_method_counter_json': favorite_method_counter_json
-            
+            'platform_counter_json' : platform_counter_json    
         })
 
     else:
@@ -88,11 +86,11 @@ def test(request):
 def home(request):
    return render(request , 'index.html')
 
+def insertlink(request):
+   return render(request , 'insertlink.html')
+
 def UploadFile(request):
    return render(request , 'Upload-File.html')
-
-# def shareresult(request):
-#    return render(request , 'share.html')
 
 def contactus(request):
    return render(request , 'contact.html')
@@ -102,8 +100,6 @@ def result(request, sentiment):
     inputField = analyze.inputField
     sentimentField = analyze.sentimentField
     return render(request, 'result.html', {'inputField': inputField, 'sentimentField': sentimentField, 'sentiment': sentiment})
-
-
 
 def signup(request):
     if request.method == 'POST':
@@ -150,9 +146,8 @@ def logout(request):
     # logout(request)
     return redirect('login')
 
-
-
 def login(request):
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -166,3 +161,94 @@ def login(request):
             return redirect('login')
     else:
         return render(request, 'login.html')
+    
+
+
+
+#graph api
+
+def analyze_comments(request):
+    print("Analyzing comments...")
+    if request.method == 'POST':
+        post_url = request.POST.get('post-url')
+        print("Post URL:", post_url)
+        # Extract the post ID from the post URL
+        pattern = r"(?P<url>https:\/\/www\.facebook\.com\/.+?\/(?P<id>\d+))"
+        match = re.search(pattern, post_url)
+        if match:
+            post_id = match.group('id')
+            # Retrieve the comments for the given post ID using Facebook Graph API
+            graph_api_url = f"https://graph.facebook.com/v12.0/{post_id}/comments"
+            params = {
+                'access_token': 'EAAHsKLPrQXEBALsWgOZC0uLRAyzpFYFazJrwtCdUnIr3iH2mnSySEW18C5VAXP12XGYZAQxNQeLNXoXsWumroBVYYBkMaC0PAOf0ks7CPVDWFZAYLCA1AN22AkspXWVyGwqQm5ocEmTkD0712KWYwxluVtkAfEXREXSKZAPdAaserQabNMzw5L5HcoWwgaf7rXPeJ2fD07kY7QZCV504I'
+            }
+            response = requests.get(graph_api_url, params=params)
+            if response.status_code != 200:
+                error_message = 'Error retrieving comments from Facebook Graph API. Please try again later.'
+                return render(request, 'insertlink.html', {'error_message': error_message}, print("error_message 3"))
+            try:
+                comments = response.json()['data']
+                # Perform sentiment analysis on the comments
+                sentiment_counts = {'positive': 0, 'negative': 0, 'neutral': 0}
+                for comment in comments:
+                    sentiment = sentiment_analyzer(comment['message'])
+                    sentiment_counts[sentiment] += 1
+                # Render the template with the sentiment analysis results
+                return render(request, 'analyze_comment.html', {'sentiment': sentiment_counts})
+            except KeyError:
+                error_message = 'Error parsing JSON response from Facebook Graph API. Please try again later.'
+                return render(request, 'insertlink.html', {'error_message': error_message}, print("error_message 0"))
+        else:
+            # If the post URL is invalid, render the form with an error message
+            error_message = 'Invalid post URL. Please enter a valid Facebook post URL.'
+            return render(request, 'insertlink.html', {'error_message': error_message}, print("error_message"))
+    else:
+        return render(request, 'insertlink.html' , print("done"))
+
+
+
+
+
+#web scarping 
+
+
+# def analyze_comments(request):
+#     print("Analyzing comments...")
+#     if request.method == 'POST':
+#         post_url = request.POST.get('post-url')
+#         print(post_url)
+#         # Extract the post ID from the post URL
+#         pattern = r"(?P<url>https:\/\/www\.facebook\.com\/.+?\/(?P<id>\d+))"
+#         match = re.search(pattern, post_url)
+#         if match:
+#             post_id = match.group('id')
+#             # Retrieve the comments for the given post ID using web scraping
+#             url = f"https://m.facebook.com/story.php?story_fbid={post_id}&id={post_id}"
+#             headers = {
+#                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+#             }
+#             print(post_id)
+#             response = requests.get(url, headers=headers)
+#             soup = BeautifulSoup(response.content, 'html.parser')
+#             comments = []
+#             for comment in soup.select('.commentable_item .fbComment'):
+#                 message_element = comment.select_one('.comment_body')
+#                 if message_element:
+#                     message = message_element.text.strip()
+#                     comments.append(message)
+#             if not comments:
+#                 error_message = 'No comments found for the given post URL. Please try again with a different URL.'
+#                 return render(request, 'insertlink.html', {'error_message': error_message})
+#             # Perform sentiment analysis on the comments
+#             sentiment_counts = {'positive': 0, 'negative': 0, 'neutral': 0}
+#             for comment in comments:
+#                 sentiment = sentiment_analyzer(comment)
+#                 sentiment_counts[sentiment] += 1
+#             # Render the template with the sentiment analysis results
+#             return render(request, 'analyze_comment.html', {'sentiment': sentiment_counts})
+#         else:
+#             # If the post URL is invalid, render the form with an error message
+#             error_message = 'Invalid post URL. Please enter a valid Facebook post URL.'
+#             return render(request, 'insertlink.html', {'error_message': error_message})
+#     else:
+#         return render(request, 'insertlink.html')

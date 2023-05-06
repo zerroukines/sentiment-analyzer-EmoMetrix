@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>Analyze Comments</title>
+    <link rel="stylesheet" href="{% static 'css/analyze_comment.css'%}">
+</head>
+<body>
+    
+
+    <h2>Results of Comment Sentiment Analysis</h2>
+    <ul>
+        <li>Positive comments: {{ sentiment.positive }}</li>
+        <li>Negative comments: {{ sentiment.negative }}</li>
+        <li>Neutral comments: {{ sentiment.neutral }}</li>
+    </ul>
+      
+</body>
+</html>

@@ -47,10 +47,9 @@ input[type="file"] {
   white-space: nowrap;
   cursor: pointer;
   border-radius: 5px;
-  border: 2px solid gray;
   font-size: 1em;
   font-weight: bold;
-  background-color: #fff;
+  background-color: transparent;
   box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
 
@@ -59,7 +58,7 @@ input[type="file"] {
 }
 
 button[type="submit"] {
-  background-color: #130754  ;
+  background-color: #17a2b8  ;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -71,7 +70,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #130754 ;
+  background-color: #17a2b8 ;
 }
 
 

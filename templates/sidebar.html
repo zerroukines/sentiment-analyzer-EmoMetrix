@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{% static 'css/sidebar.css'%}">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css'%}?version=1">
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
@@ -29,6 +29,11 @@
                    href="{% url 'Upload File' %}">Upload File
                 </a>
             </li>
+            <li>
+              <a  class="sidebar-link {% if request.path == '/insert link/' %}active{% endif %}" 
+                href="{% url 'insert link' %}">Insert link
+              </a>
+          </li>
             
             <li>
                 <a  class="sidebar-link {% if request.path == '/contactus/' %}active{% endif %}" 

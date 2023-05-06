@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{% static 'css/test.css'%}?version=1 ">
+  <link rel="stylesheet" href="{% static 'css/test.css'%}">
 </head>
 <body>
   <!-- ?version=1 -->
@@ -17,7 +17,7 @@
   <form method="POST" action="{% url 'test' %}" accept-charset="UTF-8">
     {% csrf_token %}
     <div class="input-container">
-      <input type="text" id="input-field" name="input-field" lang="ar" placeholder="give the text for evaluation" >
+      <input type="text" id="input-field" name="input-field" lang="ar" placeholder="Give the text for evaluation" >
       <div class="buttons">
         <input type="reset" value="Clear" class="analyze" id="clear-btn">
         <input type="submit" value="Submit" class="analyze" id="submit-btn">

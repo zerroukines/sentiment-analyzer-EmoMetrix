@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>Insert Link</title>
+    <link rel="stylesheet" href="{% static 'css/insertlink.css'%}">
+    <script>
+        // JavaScript function to display error messages as alerts
+        function displayErrorMessage(message) {
+            alert(message);
+        }
+    </script>
+</head>
+<body>
+    {% include 'sidebar.html' %}
+    <div class="container">
+        <h1>Insert Link</h1>
+        <form method="post" action="{% url 'analyze_comments' %}">
+            {% csrf_token %}
+            <div class="input-field">
+                <input type="text" id="post-url" name="post-url" required>
+                <label for="post-url">Enter the post URL here</label>
+            </div>
+            <button type="submit" class="analyze-btn">Analyze Comments</button>
+        </form>
+        {% if error_message %}
+            <script>
+                displayErrorMessage("{{ error_message }}");
+            </script>
+        {% endif %}
+    </div>
+</body>
+</html>
+
