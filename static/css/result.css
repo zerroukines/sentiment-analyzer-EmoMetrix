@@ -41,7 +41,7 @@ p {
 }
 
 .re-analysis-button {
-    background-color: #ff007f;
+    background-color: #17a2b8;
     border: none;
     color: white;
     font-weight: 600;
@@ -62,5 +62,5 @@ p {
 }
 
 .re-analysis-button:hover {
-    background-color: #ff69b4;
+    background-color: #eed202b4;
 }

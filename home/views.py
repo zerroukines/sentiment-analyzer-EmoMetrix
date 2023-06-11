@@ -2,17 +2,23 @@ from django.shortcuts import render,HttpResponse,redirect
 from .models import Analyze
 from .se import sentiment_analyzer
 from django.urls import reverse
-from django.http import HttpResponseRedirect , JsonResponse
+from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate,login as auth_login
 from django.contrib.auth.decorators import login_required
-import csv, codecs , json , re , requests , facebook
-from django.conf import settings
+import csv, codecs , json , re , requests 
 from django.contrib import messages
 from collections import Counter
 from .models import MyUser
-from bs4 import BeautifulSoup
+from .sentiment_classifier import classify_sentiment
+
+
 @login_required(login_url='login')
 
+
+
+def handler404(request, exception):
+    print("404 function")
+    return render(request, '404.html', status=404)
 
 def analyze_file(request):
     if request.method == 'POST' and request.FILES['file']:
@@ -40,7 +46,7 @@ def analyze_file(request):
             
             for column in selected_columns:
                 column_index = columns.index(column)
-                sentiment = sentiment_analyzer(row[column_index])
+                sentiment = classify_sentiment(row[column_index])
                 results.setdefault(column, []).append(sentiment)
 
         results_json = json.dumps(results) # convert results to JSON
@@ -77,7 +83,8 @@ def analyze_file(request):
 def test(request):
     if request.method == 'POST':
         input_field = request.POST.get('input-field', '')
-        sentiment = sentiment_analyzer(input_field)
+        # sentiment = sentiment_analyzer(input_field)
+        sentiment = classify_sentiment(input_field) 
         data = Analyze.objects.create(inputField=input_field, sentimentField=sentiment)
         return HttpResponseRedirect(reverse('result', kwargs={'sentiment': sentiment}))
     else:
@@ -166,14 +173,13 @@ def login(request):
 
 
 #graph api
-
 def analyze_comments(request):
     print("Analyzing comments...")
     if request.method == 'POST':
         post_url = request.POST.get('post-url')
         print("Post URL:", post_url)
         # Extract the post ID from the post URL
-        pattern = r"(?P<url>https:\/\/www\.facebook\.com\/.+?\/(?P<id>\d+))"
+        pattern = r"(?P<url>https:\/\/www\.facebook\.com\/.+?\/(?P<id>[\w-]+))"
         match = re.search(pattern, post_url)
         if match:
             post_id = match.group('id')
@@ -207,48 +213,3 @@ def analyze_comments(request):
 
 
 
-
-
-#web scarping 
-
-
-# def analyze_comments(request):
-#     print("Analyzing comments...")
-#     if request.method == 'POST':
-#         post_url = request.POST.get('post-url')
-#         print(post_url)
-#         # Extract the post ID from the post URL
-#         pattern = r"(?P<url>https:\/\/www\.facebook\.com\/.+?\/(?P<id>\d+))"
-#         match = re.search(pattern, post_url)
-#         if match:
-#             post_id = match.group('id')
-#             # Retrieve the comments for the given post ID using web scraping
-#             url = f"https://m.facebook.com/story.php?story_fbid={post_id}&id={post_id}"
-#             headers = {
-#                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
-#             }
-#             print(post_id)
-#             response = requests.get(url, headers=headers)
-#             soup = BeautifulSoup(response.content, 'html.parser')
-#             comments = []
-#             for comment in soup.select('.commentable_item .fbComment'):
-#                 message_element = comment.select_one('.comment_body')
-#                 if message_element:
-#                     message = message_element.text.strip()
-#                     comments.append(message)
-#             if not comments:
-#                 error_message = 'No comments found for the given post URL. Please try again with a different URL.'
-#                 return render(request, 'insertlink.html', {'error_message': error_message})
-#             # Perform sentiment analysis on the comments
-#             sentiment_counts = {'positive': 0, 'negative': 0, 'neutral': 0}
-#             for comment in comments:
-#                 sentiment = sentiment_analyzer(comment)
-#                 sentiment_counts[sentiment] += 1
-#             # Render the template with the sentiment analysis results
-#             return render(request, 'analyze_comment.html', {'sentiment': sentiment_counts})
-#         else:
-#             # If the post URL is invalid, render the form with an error message
-#             error_message = 'Invalid post URL. Please enter a valid Facebook post URL.'
-#             return render(request, 'insertlink.html', {'error_message': error_message})
-#     else:
-#         return render(request, 'insertlink.html')

@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/Upload-File.css'%}?version=1">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/Upload-File.css'%}?version=1">
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
@@ -13,7 +13,7 @@
     {% include 'sidebar.html' %}
     <div class="main">
 		<div class="head">
-			<h1>File Upload and Sentiment Analysis Dashboard</h1>
+			<h1> Upload a File to see the result in Dashboard</h1>
 		</div>
         <div class="content">
          <form action="{% url 'dashboard' %}" method="post" enctype="multipart/form-data">
